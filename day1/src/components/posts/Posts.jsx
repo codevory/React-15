@@ -1,0 +1,30 @@
+import LoadingSpinner from '../common/LoadingSpinner';
+import ErrorMessage from "../common/ErrorMessage";
+
+const Posts = ({posts,loading,error,onFetch}) => {
+
+
+  if(loading) return <LoadingSpinner message={"Loading user Posts..."} />
+  if(error) return <ErrorMessage title={"Error fetching posts.."} error={error} onRetry={onFetch} />
+
+  return (
+    <div className="user-posts">
+        <h2>Recent Posts ({posts.length})</h2>
+        {posts.length === 0 ? (
+          <p>No posts yet.</p>
+        ) : (
+          posts.map((post) => (
+            <div key={post.id} className="post-card">
+              <h3>{post.title}</h3>
+              <p>{post.content.substring(0, 150)}...</p>
+              <span className="post-date">
+                {new Date(post.createdAt).toLocaleDateString()}
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+  )
+}
+
+export default Posts
